@@ -1,4 +1,20 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp, DefineComponent, h } from 'vue'
+import NotFound from './components/NotFound/index.vue'
+import routes from './routes'
 
-createApp(App).mount('#app')
+const SimpleRouter = {
+  data: () => ({
+    currentRoute: window.location.pathname
+  }),
+  computed: {
+    CurrentComponent(): DefineComponent {
+      console.log(this.currentRoute)
+      return routes[this.currentRoute] || NotFound
+    }
+  },
+  render() {
+    return h(this.CurrentComponent)
+  }
+} as any
+
+createApp(SimpleRouter).mount('#app')
